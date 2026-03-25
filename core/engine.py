@@ -158,6 +158,15 @@ def _import_tools():
     try:
         import tools.github_tools as m; tools["github"] = m
     except Exception: tools["github"] = None
+    try:
+        import tools.ssb_tool as m; tools["ssb"] = m
+    except Exception: tools["ssb"] = None
+    try:
+        import tools.circuit_breaker as m; tools["circuit_breaker"] = m
+    except Exception: tools["circuit_breaker"] = None
+    try:
+        import tools.vector_memory as m; tools["vector_memory"] = m
+    except Exception: tools["vector_memory"] = None
     return tools
 
 
@@ -1202,6 +1211,54 @@ TOOLS: list[dict] = [
                 "description": {"type": "string", "default": ""},
             },
             "required": ["product_name", "amount_nok"],
+        },
+    },
+    {
+        "name": "ssb_market_data",
+        "description": "Hent gratis norsk markedsdata fra SSB (Statistics Norway). Befolkning per kommune, bedrifter per naeringskode, omsetningsdata.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query_type": {
+                    "type": "string",
+                    "description": "population | companies | market_summary",
+                    "default": "market_summary",
+                },
+                "municipality_code": {
+                    "type": "string",
+                    "description": "Kommunekode: 1804=Bodo, 0301=Oslo, 4601=Bergen",
+                    "default": "1804",
+                },
+                "industry_code": {"type": "string", "description": "NACE-kode f.eks. '62' for IT"},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "vector_memory_search",
+        "description": "Semantisk sork i Jarvis sin hukommelse. Finn relevante minner basert pa mening, ikke bare nokkelord. Bruk for a finne tidligere kunder, pitcher, beslutninger.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Hva du sooker etter"},
+                "k": {"type": "integer", "default": 5, "description": "Antall resultater"},
+                "category": {"type": "string", "description": "Filtrer pa kategori (valgfri)"},
+            },
+            "required": ["query"],
+        },
+    },
+    {
+        "name": "vector_memory_add",
+        "description": "Lagre viktig informasjon i semantisk hukommelse. Bruk for kunder, inntekter, strategiske beslutninger, loeringer.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "content": {"type": "string", "description": "Hva som skal huskes"},
+                "category": {"type": "string", "default": "general"},
+                "tags": {"type": "array", "items": {"type": "string"}, "default": []},
+                "importance": {"type": "integer", "default": 1, "description": "1=normal, 2=viktig, 3=kritisk"},
+            },
+            "required": ["content"],
         },
     },
     {
@@ -2261,6 +2318,54 @@ async def _execute_tool(
                 product_name=inputs["product_name"],
             )
             return f"Stripe payment link: {result['url']} | {inputs['amount_nok']} NOK | {inputs['product_name']}"
+
+
+        elif name == "ssb_market_data":
+            if not t.get("ssb"):
+                return "SSB ikke tilgjengelig."
+            qtype = inputs.get("query_type", "market_summary")
+            if qtype == "market_summary":
+                return t["ssb"].market_summary(inputs.get("municipality_code", "1804"))
+            elif qtype == "population":
+                result = t["ssb"].get_population(inputs.get("municipality_code", "1804"))
+                return str(result)
+            elif qtype == "companies":
+                results = t["ssb"].search_companies_ssb(inputs.get("industry_code"))
+                if not results:
+                    return "Ingen data fra SSB."
+                lines = [f"{r['industry']}: {r['company_count']} bedrifter" for r in results[:10]]
+                return "Bedrifter per naering (SSB):" + chr(10) + chr(10).join(lines)
+            return "Ukjent query_type: " + qtype
+
+        elif name == "vector_memory_search":
+            if not t.get("vector_memory"):
+                return "Vector memory ikke tilgjengelig."
+            try:
+                vm = t["vector_memory"].VectorMemory()
+                results = vm.search(inputs["query"], k=inputs.get("k", 5), category=inputs.get("category"))
+                if not results:
+                    return "Ingen relevante minner funnet."
+                parts = []
+                for r in results:
+                    parts.append("[" + r["category"] + "] " + r["content"] + " (relevance: " + str(round(1 - r.get("distance", 0), 2)) + ")")
+                return "Semantisk sork (" + str(len(results)) + " treff):" + chr(10) + chr(10).join(parts)
+            except Exception as e:
+                return "Vector memory error: " + str(e)
+
+        elif name == "vector_memory_add":
+            if not t.get("vector_memory"):
+                return "Vector memory ikke tilgjengelig."
+            try:
+                vm = t["vector_memory"].VectorMemory()
+                mem_id = vm.add(
+                    content=inputs["content"],
+                    tags=inputs.get("tags", []),
+                    category=inputs.get("category", "general"),
+                    importance=inputs.get("importance", 1),
+                )
+                return "Lagret i semantisk hukommelse (id=" + str(mem_id) + "): " + inputs["content"][:100]
+            except Exception as e:
+                return "Vector memory save error: " + str(e)
 
         elif name == "minimax_chat":
             if not t.get("minimax"):

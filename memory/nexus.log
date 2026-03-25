@@ -18042,3 +18042,145 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-03-25 20:23:01,086 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
 2026-03-25 20:23:01,219 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/sendMessage "HTTP/1.1 200 OK"
 2026-03-25 20:23:06,412 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:23:16,450 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:23:26,489 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:23:36,524 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:23:46,562 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:23:56,603 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:24:06,650 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:24:16,689 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:24:26,056 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:24:26,175 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/sendChatAction "HTTP/1.1 200 OK"
+2026-03-25 20:24:32,689 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:24:32,691 [INFO] core.engine: Tool: save_memory — {'content': 'Nicholas sitt telefonnummer: +47 91349949', 'category': 'identity', 'priority': 5, 'tags': ['nicholas', 'telefon', 'kontakt']}
+2026-03-25 20:24:36,093 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:24:39,862 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:24:40,001 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/sendMessage "HTTP/1.1 200 OK"
+2026-03-25 20:24:46,133 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:24:56,171 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:25:06,207 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:25:16,244 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:25:26,279 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:25:29,821 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:25:29,945 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/sendChatAction "HTTP/1.1 200 OK"
+2026-03-25 20:25:34,395 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:25:34,398 [INFO] core.engine: Tool: reflect — {'force': True}
+2026-03-25 20:25:34,762 [INFO] memory.database: Database initialisert
+2026-03-25 20:25:48,187 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:25:48,190 [INFO] memory.self_learning: Lærdom lagret: [2026-03-25][strategy] # NEXUS — Strategianalyse 2026-03-25
+2026-03-25 20:25:48,191 [INFO] memory.self_learning: Lærdom lagret: [2026-03-25][strategy] *Ingenting. Null aktivitet gir null positive funn. Ærligh
+2026-03-25 20:25:48,191 [INFO] memory.self_learning: Lærdom lagret: [2026-03-25][strategy] ## 2. Hva fungerte dårlig?
+2026-03-25 20:25:48,191 [INFO] memory.self_learning: Lærdom lagret: [2026-03-25][strategy] - **Systemet er ikke operativt** — ingen tjeneste, ingen 
+2026-03-25 20:25:48,192 [INFO] agents.reflection_agent: Refleksjon fullført og strategi oppdatert.
+2026-03-25 20:25:48,193 [INFO] core.engine: Tool: get_goals — {}
+2026-03-25 20:25:48,194 [INFO] core.engine: Tool: stripe_balance — {}
+2026-03-25 20:25:48,660 [INFO] httpx: HTTP Request: GET https://api.stripe.com/v1/balance "HTTP/1.1 200 OK"
+2026-03-25 20:25:48,661 [INFO] tools.stripe: Stripe balance: {'available': {'NOK': 0.0}, 'pending': {'NOK': 0.0}}
+2026-03-25 20:25:48,693 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:25:58,313 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:25:58,316 [INFO] core.engine: Tool: perplexity_search — {'query': 'Polymarket best opportunities 2025 prediction markets highest volume active markets'}
+2026-03-25 20:26:04,148 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:26:04,149 [INFO] tools.perplexity_client: Perplexity search: 'Polymarket best opportunities 2025 prediction mark' → 5 citations
+2026-03-25 20:26:04,149 [INFO] core.engine: Tool: get_news — {'sources': ['TechCrunch', 'HN'], 'limit_per_source': 5}
+2026-03-25 20:26:04,214 [INFO] httpx: HTTP Request: GET https://techcrunch.com/feed/ "HTTP/1.1 200 OK"
+2026-03-25 20:26:04,801 [INFO] httpx: HTTP Request: GET https://hnrss.org/frontpage "HTTP/1.1 200 OK"
+2026-03-25 20:26:04,802 [INFO] core.engine: Tool: delegate — {'agent': 'research', 'task': 'Analyser Polymarket sine topp-markeder akkurat nå. Finn markeder med: høy volum, klar verdi-feilprising (edge), hendelser innen 30 dager. Gi meg topp 5 bets med begrunnelse og sannsynlighetsanalyse.'}
+2026-03-25 20:26:04,837 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:26:11,245 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:26:11,247 [INFO] core.engine: Tool: perplexity_search — {'query': 'Polymarket top markets March 2026 best value bets mispriced odds analysis'}
+2026-03-25 20:26:22,970 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:26:22,971 [INFO] tools.perplexity_client: Perplexity search: 'Polymarket top markets March 2026 best value bets ' → 7 citations
+2026-03-25 20:26:22,971 [INFO] core.engine: Tool: perplexity_search — {'query': 'ARC-AGI-3 announcement what is it March 2026'}
+2026-03-25 20:26:26,766 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:26:26,767 [INFO] tools.perplexity_client: Perplexity search: 'ARC-AGI-3 announcement what is it March 2026' → 5 citations
+2026-03-25 20:26:26,767 [INFO] core.engine: Tool: perplexity_search — {'query': 'Meta Google negligent social media addiction trial verdict implications 2026'}
+2026-03-25 20:26:34,022 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:26:34,023 [INFO] tools.perplexity_client: Perplexity search: 'Meta Google negligent social media addiction trial' → 1 citations
+2026-03-25 20:26:34,059 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:26:38,615 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:26:38,617 [INFO] core.engine: Tool: perplexity_search — {'query': 'Polymarket crypto markets March 2026 Bitcoin ETH price predictions active high volume'}
+2026-03-25 20:26:46,904 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:26:46,905 [INFO] tools.perplexity_client: Perplexity search: 'Polymarket crypto markets March 2026 Bitcoin ETH p' → 10 citations
+2026-03-25 20:26:46,905 [INFO] core.engine: Tool: perplexity_search — {'query': 'best autonomous AI agent money making strategies 2026 no capital required'}
+2026-03-25 20:26:53,225 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:26:53,226 [INFO] tools.perplexity_client: Perplexity search: 'best autonomous AI agent money making strategies 2' → 3 citations
+2026-03-25 20:26:53,227 [INFO] core.engine: Tool: crypto_prices — {'coins': ['bitcoin', 'ethereum', 'solana', 'hyperliquid'], 'currency': 'usd'}
+2026-03-25 20:26:53,494 [INFO] httpx: HTTP Request: GET https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Csolana%2Chyperliquid&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h "HTTP/1.1 200 OK"
+2026-03-25 20:26:53,542 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:26:59,032 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:26:59,035 [INFO] core.engine: Tool: perplexity_search — {'query': 'best way to make money online Norway 2026 AI freelancing digital products no startup capital'}
+2026-03-25 20:27:07,344 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:27:07,346 [INFO] tools.perplexity_client: Perplexity search: 'best way to make money online Norway 2026 AI freel' → 8 citations
+2026-03-25 20:27:07,346 [INFO] core.engine: Tool: perplexity_search — {'query': 'gumroad digital products best sellers March 2026 AI tools templates niche'}
+2026-03-25 20:27:12,920 [INFO] httpx: HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:27:12,922 [INFO] tools.perplexity_client: Perplexity search: 'gumroad digital products best sellers March 2026 A' → 2 citations
+2026-03-25 20:27:12,922 [INFO] core.engine: Tool: read_notebook — {}
+2026-03-25 20:27:12,960 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:27:22,998 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:27:30,636 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:27:30,788 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/sendMessage "HTTP/1.1 200 OK"
+2026-03-25 20:27:33,031 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:27:43,071 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:27:53,108 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:28:03,144 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:28:13,180 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:28:23,218 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:28:33,253 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:28:43,288 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:28:53,323 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:29:03,361 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:29:09,750 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getUpdates "HTTP/1.1 200 OK"
+2026-03-25 20:29:09,751 [INFO] telegram.ext.Application: Application is stopping. This might take a moment.
+2026-03-25 20:29:09,751 [INFO] apscheduler.scheduler: Scheduler has been shut down
+2026-03-25 20:29:09,762 [INFO] telegram.ext.Application: Application.stop() complete
+2026-03-25 20:29:10,171 [INFO] __main__: ============================================================
+2026-03-25 20:29:10,171 [INFO] __main__: NEXUS starting — Jordan + NEXUS merged agent
+2026-03-25 20:29:10,171 [INFO] __main__: ============================================================
+2026-03-25 20:29:11,022 [INFO] __main__: Starting Telegram bot (polling)...
+2026-03-25 20:29:11,128 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/getMe "HTTP/1.1 200 OK"
+2026-03-25 20:29:12,544 [INFO] httpx: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-25 20:29:12,802 [INFO] httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 20:29:12,803 [INFO] tools.groq_client: Groq (llama-3.3-70b-versatile): 17 chars
+2026-03-25 20:29:12,871 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/sendMessage "HTTP/1.1 200 OK"
+2026-03-25 20:29:12,878 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,880 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,880 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,880 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,880 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,880 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,881 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,881 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,881 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,881 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-25 20:29:12,881 [INFO] services.scheduler_service: Scheduler: 18 jobs registrert
+2026-03-25 20:29:12,881 [INFO] apscheduler.scheduler: Added job "run_thinker" to job store "default"
+2026-03-25 20:29:12,881 [INFO] apscheduler.scheduler: Added job "arxiv_nightly" to job store "default"
+2026-03-25 20:29:12,881 [INFO] apscheduler.scheduler: Added job "trading_signal" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "jarvis_autonomous_outreach" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "lead_scanner" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "website_scout" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "sub_agent_idle_work" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "jarvis_autonomous_outreach" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "opportunity_scanner" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "nexus_monitor" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "nexus_reflect" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "compress_memory_job" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "content_pipeline" to job store "default"
+2026-03-25 20:29:12,882 [INFO] apscheduler.scheduler: Added job "finance_report" to job store "default"
+2026-03-25 20:29:12,883 [INFO] apscheduler.scheduler: Added job "self_improve" to job store "default"
+2026-03-25 20:29:12,883 [INFO] apscheduler.scheduler: Added job "followup_outreach" to job store "default"
+2026-03-25 20:29:12,883 [INFO] apscheduler.scheduler: Added job "check_follow_ups_job" to job store "default"
+2026-03-25 20:29:12,883 [INFO] apscheduler.scheduler: Added job "morning_summary_job" to job store "default"
+2026-03-25 20:29:12,883 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-25 20:29:12,883 [INFO] __main__: Scheduler started — 18 jobs active.
+2026-03-25 20:29:12,920 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8302169926:AAEKV_5qwBfT0Ws4LyrtgGfA3HI70s9yRAU/deleteWebhook "HTTP/1.1 200 OK"
+2026-03-25 20:29:12,922 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-25 20:29:12,922 [INFO] telegram.ext.Application: Application started
