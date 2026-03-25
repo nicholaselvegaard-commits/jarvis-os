@@ -45,6 +45,9 @@ def generate_image(
             raise RuntimeError(f"Image generation unavailable: {e2}") from e2
 
 
+from tools.circuit_breaker import breaker, smart_retry
+
+@breaker(huggingface, fail_max=3, reset_timeout=120)
 def generate_flux(
     prompt: str,
     model: str = "black-forest-labs/FLUX.1-schnell",
