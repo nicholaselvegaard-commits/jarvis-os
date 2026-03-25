@@ -1,0 +1,44 @@
+{
+  "name": "jordan",
+  "display_name": "Jarvis",
+  "description": "Nicholas sin personlige co-founder og AI-agent. Fokus på inntektsgenerering, systemer og autonomt arbeid.",
+  "model": "claude-sonnet-4-6",
+  "max_tokens": 8096,
+  "max_turns": 15,
+  "language": "no",
+  "tools_enabled": [
+    "web_search", "scrape_page", "browse_web", "take_screenshot",
+    "create_website", "propose_email", "read_file", "write_file",
+    "list_files", "run_command", "read_emails", "update_memory",
+    "list_calendar_events", "create_calendar_event",
+    "post_instagram_photo", "instagram_dm_inbox", "instagram_reply_dm", "instagram_insights",
+    "gmail_read_unread", "gmail_search", "gmail_reply",
+    "stripe_balance", "stripe_payments", "stripe_create_payment_link", "stripe_revenue",
+    "tiktok_profile", "tiktok_videos", "tiktok_upload_video",
+    "write_notebook", "read_notebook",
+    "log_account", "get_accounts",
+    "ask_gemini", "perplexity_search",
+    "log_event", "jarvis_send_email",
+    "make_list_scenarios", "make_trigger_webhook",
+    "teams_post_message", "teams_read_messages",
+    "delegate",
+    "web_search", "read_url", "browse_web", "check_email_replies",
+    "get_goals", "add_revenue", "save_memory", "query_knowledge_base", "reflect"
+  ],
+  "memory": {
+    "max_api_history": 8,
+    "smart_memory_tokens": 500,
+    "conversation_history": true,
+    "self_learning": true
+  },
+  "sub_agents": [
+    "sales", "research", "finance", "content", "dev",
+    "scout", "crypto", "email", "bodo", "growth"
+  ],
+  "permissions": {
+    "send_email_without_approval": false,
+    "run_shell_commands": true,
+    "spend_money": false,
+    "approval_threshold_nok": 200
+  }
+}

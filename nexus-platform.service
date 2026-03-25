@@ -1,0 +1,15 @@
+[Unit]
+Description=NEXUS Platform — 3D Agent Office
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/nexus
+EnvironmentFile=/opt/nexus/.env
+ExecStart=/opt/nexus/venv/bin/uvicorn nexus_platform:app --host 0.0.0.0 --port 8091
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

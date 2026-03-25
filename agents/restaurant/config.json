@@ -1,0 +1,23 @@
+{
+  "name": "restaurant",
+  "display_name": "Restaurant Agent",
+  "description": "Spesialisert agent for restaurantbransjen. Kan håndtere bookinger, menyer, kundeservice og markedsføring for restauranter.",
+  "model": "claude-sonnet-4-6",
+  "max_tokens": 4096,
+  "max_turns": 10,
+  "language": "no",
+  "tools_enabled": [
+    "web_search", "scrape_page", "propose_email", "write_notebook", "read_notebook"
+  ],
+  "memory": {
+    "max_api_history": 6,
+    "smart_memory_tokens": 300,
+    "conversation_history": true
+  },
+  "permissions": {
+    "send_email_without_approval": false,
+    "run_shell_commands": false,
+    "spend_money": false,
+    "approval_threshold_nok": 0
+  }
+}

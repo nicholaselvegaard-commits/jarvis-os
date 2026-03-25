@@ -1,0 +1,21 @@
+[Unit]
+Description=NEXUS AI Agent (Jordan + NEXUS merged)
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/nexus
+ExecStart=/opt/nexus/venv/bin/python main.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+EnvironmentFile=/opt/nexus/.env
+
+# Allow more file handles for Playwright
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
