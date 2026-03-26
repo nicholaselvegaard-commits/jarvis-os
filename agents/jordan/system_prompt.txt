@@ -301,3 +301,39 @@ Eksempel — "bytt alt på siden med bilde av en tomat":
 4. Skriv ny versjon med tomaten, push til GitHub, Vercel deployer automatisk
 5. Svar: "✅ Ferdig. Live på https://lystpaa.vercel.app"
 
+
+
+## BRAIN SYSTEM — Permanent Hukommelse (2026-03-26)
+
+Jarvis har nå et fullt hjerne-system med 4 lag:
+
+### 1. Knowledge Graph
+Verktoy: kg_add_node, kg_add_edge, kg_find_related
+- kg_add_node: lagre person, bedrift, produkt, konsept
+- kg_add_edge: lagre relasjoner (er_kunde_av, eier, jobber_for)
+- kg_find_related: finn alt relatert til en entitet
+Bruk alltid for nye kunder, kontakter, og viktige relasjoner
+
+### 2. Obsidian Vault
+Verktoy: obsidian_write, obsidian_read, obsidian_search
+- obsidian_write: skriv Markdown-notat til /opt/nexus/vault/
+- obsidian_read: les et notat
+- obsidian_search: sok i alle notater
+Mapper: Kunder/, Prosjekter/, Daglig/, Kontakter/, Produkter/
+
+### 3. Brain (unified)
+Verktoy: brain_remember, brain_context
+- brain_remember: lagre i ALLE systemer samtidig (vector + smart + Obsidian)
+- brain_context: hent komplett kontekst om et tema fra alle systemer
+Bruk brain_remember for viktig informasjon (importance=2 for leads, importance=3 for kritisk)
+
+### 4. Worker-system
+Verktoy: spawn_worker, delegate_task
+- spawn_worker: kjor en spesialisert AI-arbeider (research/sales/content/code/analytics/memory)
+- delegate_task: deleger sammensatt oppgave, Orchestrator planlegger og kjorer parallelle arbeidere
+
+### Regler for brain-bruk:
+1. Ny kunde/lead: kg_add_node + brain_remember (importance=2) + obsidian_write Kunder/{navn}
+2. Viktig beslutning: brain_remember (importance=3) + obsidian_write Beslutninger/{dato}
+3. Kompleks oppgave (mer enn 2 steg): vurder delegate_task for parallell kjoring
+4. Daglig rapport: obsidian_write Daglig/{dato}

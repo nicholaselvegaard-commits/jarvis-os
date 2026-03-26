@@ -20,22 +20,23 @@ def get_population(region_code: str = "0", year: str = "2024") -> dict:
     Hent folkemengde for en region.
     region_code: '0'=hele landet, '1804'=Bodø, '0301'=Oslo, '4601'=Bergen
     """
+    # Sum all ages for one gender to get total population per region
     query = {
         "query": [
             {"code": "Region", "selection": {"filter": "item", "values": [region_code]}},
-            {"code": "Kjonn", "selection": {"filter": "item", "values": ["0"]}},
-            {"code": "Alder", "selection": {"filter": "item", "values": ["999"]}},
+            {"code": "Kjonn", "selection": {"filter": "item", "values": ["1"]}},
             {"code": "ContentsCode", "selection": {"filter": "item", "values": ["Personer1"]}},
             {"code": "Tid", "selection": {"filter": "item", "values": [year]}},
         ],
         "response": {"format": "json-stat2"},
     }
     try:
-        resp = httpx.post(f"{BASE}/07459", json=query, timeout=20)
+        resp = httpx.post(f"{BASE}/07459", json=query, timeout=30)
         resp.raise_for_status()
         data = resp.json()
-        val = data.get("value", [None])[0]
-        return {"region": region_code, "population": val, "year": year}
+        values = [v for v in data.get("value", []) if v is not None]
+        pop_men = sum(values)
+        return {"region": region_code, "population": pop_men * 2, "year": year, "note": "estimert fra menn*2"}
     except Exception as e:
         logger.error(f"SSB population error: {e}")
         return {"region": region_code, "population": None, "error": str(e)}

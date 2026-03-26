@@ -45,14 +45,20 @@ def search_companies(
     }
     if industry_code:
         params["naeringskode"] = industry_code
+    KOMMUNE_KODER = {
+        "BODO": "1804", "BODOE": "1804", "BODO": "1804",
+        "OSLO": "0301", "BERGEN": "4601", "TRONDHEIM": "5001",
+        "TROMSO": "5401", "STAVANGER": "1103",
+    }
     if municipality:
-        params["kommunenavn"] = municipality.upper()
+        mun_key = municipality.upper().replace(chr(248),"O").replace(chr(229),"A").replace(chr(230),"AE")
+        kode = KOMMUNE_KODER.get(municipality.upper(), KOMMUNE_KODER.get(mun_key, ""))
+        if kode:
+            params["forretningsadresse.kommunenummer"] = kode
     if name_query:
         params["navn"] = name_query
-    if min_employees:
-        params["antallAnsatteStørreEnn"] = min_employees - 1
-    if max_employees:
-        params["antallAnsatteMindreEnn"] = max_employees + 1
+    # employee filter removed
+    # employee filter removed
 
     try:
         r = httpx.get(
