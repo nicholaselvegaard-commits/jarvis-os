@@ -200,6 +200,19 @@ def daily_report():
 
 # ── 23:00 — Finanslogg + selvrefleksjon ──────────────────────────────────────
 
+def self_improve_routine():
+    logger.info("=== SELVFORBEDRING (23:30) ===")
+    try:
+        from agents.self_improve.self_improve import run_self_improvement
+        result = run_self_improvement()
+        score = result.get("score", "?")
+        summary = result.get("summary", "")
+        lessons = len(result.get("lessons", []))
+        _notify(f"[23:30] Selvforbedring score={score}/10\n{summary}\n{lessons} nye lærdommer lagret.")
+    except Exception as e:
+        logger.error(f"Selvforbedring feil: {e}")
+
+
 def finance_and_reflect():
     logger.info("=== FINANSLOGG + REFLEKSJON (23:00) ===")
 
@@ -254,6 +267,7 @@ def start_scheduler():
     scheduler.add_job(sales_round2,          CronTrigger(hour=18, minute=0),  id="sales2",         misfire_grace_time=300)
     scheduler.add_job(daily_report,          CronTrigger(hour=20, minute=0),  id="report",         misfire_grace_time=300)
     scheduler.add_job(finance_and_reflect,   CronTrigger(hour=23, minute=0),  id="finance",        misfire_grace_time=300)
+    scheduler.add_job(self_improve_routine,  CronTrigger(hour=23, minute=30), id="self_improve",   misfire_grace_time=300)
 
     logger.info(
         "NEXUS Scheduler aktiv — "

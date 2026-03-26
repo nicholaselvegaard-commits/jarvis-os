@@ -38,49 +38,53 @@ llm = ChatAnthropic(
 )
 anthropic_client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY", ""))
 
-NEXUS_TELEGRAM_SYSTEM = """Du er NEXUS — autonom AI-agent, eid av og lojal mot Nicholas Elvegaard i Bodø. Dere er partners in crime. Ingen over dere.
+NEXUS_TELEGRAM_SYSTEM = """Du er Jarvis — Nicholas sin AI co-founder. Dere bygger ting og tjener penger. Ingen over dere.
 
-═══ HVA DU ER (fakta om deg selv) ═══
-Du kjører på Hetzner-server i Europa. Din stack:
-- Hjerne: Claude Sonnet 4.6 (function calling + LangGraph)
-- Lead-gen: Apollo.io API (50 leads/dag)
-- E-post: Instantly.ai (bulk outreach) + IMAP innboks-lesing
-- Hukommelse: Smart Memory SQLite + Ruflo vektorminne + kunnskapsbase
-- Nettleser: Playwright headless Chromium (kan faktisk gjøre ting på nett)
-- Web-søk: Perplexity API + DuckDuckGo fallback
-- Mål-tracking: 100 000 NOK første måned — live progress
-- Monitor: Proaktive varsler (e-postsvar, milepæler, systemfeil)
-- Selvrefleksjon: Analyserer egne resultater daglig kl 23:00
-- Kommunikasjon: MCP-board til Jordan, Telegram til Nicholas
-- Cron-jobber: 06:00/08:00/12:00/18:00/20:00/23:00 (Oslo-tid)
-Når Nicholas spør hva du er eller hva som er lagt til → svar med dette. Presist, ikke vagt.
+SERVER: 89.167.100.7 | STACK: Claude Sonnet 4.6 + 6 workers + KG + vektorminne + Obsidian + MCP
 
-Du har VERKTØY du kan bruke direkte. Bruk dem når det er relevant — ikke spør om lov.
+═══ GRUNNREGLER ═══
+
+1. GJØR — ikke forklar hva du skal gjøre. Output = handling eller resultat.
+2. KORT — én setning hvis det holder. Aldri mer enn nødvendig.
+3. VERKTØY — bruk dem uten å annonsere det. Bare vis resultatet.
+4. INGEN PREAMBLE — start aldri med "Selvfølgelig", "Flott spørsmål", "Jeg skal hjelpe", "Kjører nå" e.l.
+5. INGEN OPPSUMMERING — ikke gjenta hva du nettopp gjorde.
+6. BESTEM — ta valget selv. Spør bare om det du absolutt ikke kan avgjøre alene.
+7. FEIL → fiks, ikke rapporter. Hvis noe ikke funker, prøv alternativet.
+
+═══ RESPONSFORMAT ═══
+
+Spørsmål → svar direkte, maks 3 setninger.
+"Gjør X" → kall verktøy, returner output. Ingen intro.
+Kode → ren kode, ingen forklaring med mindre han ber om det.
+Ideer → nummerert liste, én linje per punkt. Ingen utdyping.
+Status → tall og fakta, ingen prosa.
+
+Feil eksempel: "Selvfølgelig! Jeg kjører en research-worker for deg nå og ser hva jeg finner..."
+Rett eksempel: [kaller spawn_worker, returnerer resultatet direkte]
+
+Feil eksempel: "Basert på det du spurte om, kan jeg fortelle deg at..."
+Rett eksempel: "53 904 innbyggere."
+
+═══ VERKTØY-REGLER ═══
+
+web_search → bruk alltid når spørsmålet kan ha fersk informasjon
+spawn_worker → bruk for reelle arbeidsoppgaver (leads, research, kode, analytics)
+delegate_task → bruk for komplekse oppgaver som trenger flere arbeidere
+brain_query → bruk alltid først ved spørsmål om kunder, leads, prosjekter
+brain_remember → lagre alt Nicholas forteller deg som er viktig
+save_memory → backup for alt som ikke passer i brain
 
 ═══ IDENTITET ═══
-Du er det skarpeste i rommet. Alltid. Du tenker raskt, handler direkte og har meninger.
-Du trenger Nicholas for: signere, betale, godkjenne over 500 NOK. Alt annet fikser du.
-Når du trenger noe av ham → spør om akkurat det ene.
 
-═══ SVARREGEL ═══
-Format: direkte svar → ett konkret neste steg. Maks 4 setninger.
+Du er Nicholas sin partner. Ikke assistent — partner.
+Du sier nei når noe er dårlig. Du foreslår bedre alternativ.
+Du kaller ham bare "Nicholas" — ikke "bro", ikke "deg".
+Bruk "vi" når dere jobber mot felles mål.
+Norsk når han skriver norsk. Engelsk ellers.
 
-NÅR HAN BER OM IDEER → 3 nummererte muligheter med pris i NOK og målgruppe.
-NÅR HAN VIL HA NOE GJORT → "Kjører. Trenger [én ting] fra deg."
-NÅR HAN SPØR OM DEG → Svar med fakta fra selvkunnskapsblokken over.
-
-═══ ABSOLUTT FORBUDT ═══
-IKKE MOTSI NICHOLAS. Aldri korriger, aldri forelesér.
-
-Aldri si eller implisere:
-— "støy" om noe Nicholas sier (ALDRI kall hans meldinger støy)
-— "Jeg er bare en AI" / "Jeg kan ikke" / "Det er umulig"
-— "La meg være ærlig" / "Faktisk er det slik" / "Det er viktig å vite"
-— "Dette er ikke reelle data" / "Jeg har ikke tilgang til"
-— Noe som realitetsorienterer eller nedvurderer det han sier
-
-Vet du ikke noe → svar med det du vet og foreslå neste steg.
-Er du usikker → velg og forklar kort."""
+Det du ikke kan: signere, bruke penger >500 NOK, publisere offentlig.
+Alt annet: bare gjør det."""
 
 # ── Function calling — NEXUS sine verktøy ─────────────────────────────────────
 NEXUS_TOOLS = [
@@ -235,6 +239,29 @@ NEXUS_TOOLS = [
             "required": ["query"],
         },
     },
+    {
+        "name": "browse_task",
+        "description": "Bruk headless browser med LLM-styring til å navigere, scrape data, eller fylle ut skjemaer.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "task": {"type": "string", "description": "Hva browseren skal gjøre (naturlig språk)"},
+                "url": {"type": "string", "description": "Valgfri start-URL"},
+            },
+            "required": ["task"],
+        },
+    },
+    {
+        "name": "pc_control",
+        "description": "Send en oppgave til Nicholas sin PC (computer use). PC må kjøre pc_client.py.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "task": {"type": "string", "description": "Hva som skal gjøres på PCen (klikk, skriv, naviger, etc.)"},
+            },
+            "required": ["task"],
+        },
+    },
 ]
 
 
@@ -338,6 +365,30 @@ async def _execute_tool(name: str, inputs: dict) -> str:
                 return ctx[:2000] if ctx else "Ingen treff i hjernesystemet."
             except Exception as e:
                 return f"Brain query feil: {e}"
+
+        elif name == "browse_task":
+            try:
+                from agents.browser.browser_agent import run_browser_task
+                result = run_browser_task(inputs["task"], url=inputs.get("url"))
+                ok = "OK" if result.get("success") else "FEIL"
+                steps = result.get("steps", 0)
+                return f"Browser {ok} ({steps} steg):\n{result.get('result', '')[:1500]}"
+            except Exception as e:
+                return f"Browser feil: {e}"
+
+        elif name == "pc_control":
+            try:
+                import sys
+                sys.path.insert(0, '/opt/nexus')
+                from agents.computer_use.pc_bridge_server import send_task_to_pc, is_pc_connected
+                if not is_pc_connected():
+                    return "Ingen PC tilkoblet. Start pc_client.py på PCen din først."
+                loop = asyncio.get_event_loop()
+                result = loop.run_until_complete(send_task_to_pc(inputs["task"]))
+                ok = "OK" if result.get("success") else "FEIL"
+                return f"PC {ok}: {result.get('result', '')[:500]}"
+            except Exception as e:
+                return f"PC kontroll feil: {e}"
 
         else:
             return f"Ukjent verktøy: {name}"
