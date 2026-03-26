@@ -63,16 +63,11 @@ class Brain:
     @property
     def kg(self):
         if self._kg is None:
-            # Try Kuzu first (faster, Cypher support), fallback to SQLite
             try:
-                from memory.kuzu_graph import KuzuGraph
-                self._kg = KuzuGraph()
-            except Exception:
-                try:
-                    from memory.knowledge_graph import KnowledgeGraph
-                    self._kg = KnowledgeGraph()
-                except Exception as e2:
-                    logger.warning("KnowledgeGraph unavailable: " + str(e2))
+                from memory.knowledge_graph import KnowledgeGraph
+                self._kg = KnowledgeGraph()
+            except Exception as e:
+                logger.warning("KnowledgeGraph unavailable: " + str(e))
         return self._kg
 
     @property

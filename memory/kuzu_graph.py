@@ -32,17 +32,20 @@ class KuzuGraph:
     """
 
     def __init__(self, db_path=None):
-        import kuzu
         self.db_path = Path(db_path) if db_path else DB_PATH
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)  # only create parent
-        self._db = kuzu.Database(str(self.db_path))
-        self._conn = kuzu.Connection(self._db)
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_schema()
+
+    def _get_conn(self):
+        """Get a fresh connection. Kuzu allows one writer at a time."""
+        import kuzu
+        db = kuzu.Database(str(self.db_path))
+        return kuzu.Connection(db)
 
     def _init_schema(self):
         """Create node and relationship tables if they don't exist."""
         try:
-            self._conn.execute("""
+            self._get_conn().execute("""
                 CREATE NODE TABLE IF NOT EXISTS Node (
                     node_id STRING PRIMARY KEY,
                     type STRING DEFAULT 'concept',
@@ -58,7 +61,7 @@ class KuzuGraph:
                 logger.warning(f"Node table: {e}")
 
         try:
-            self._conn.execute("""
+            self._get_conn().execute("""
                 CREATE REL TABLE IF NOT EXISTS Relation (
                     FROM Node TO Node,
                     relation STRING,
@@ -86,14 +89,14 @@ class KuzuGraph:
 
         try:
             # Check if exists
-            result = self._conn.execute(
+            result = self._get_conn().execute(
                 "MATCH (n:Node {node_id: $nid}) RETURN n.node_id",
                 {"nid": node_id}
             )
             rows = result.get_as_df()
             if len(rows) > 0:
                 # Update
-                old_result = self._conn.execute(
+                old_result = self._get_conn().execute(
                     "MATCH (n:Node {node_id: $nid}) RETURN n.attrs",
                     {"nid": node_id}
                 )
@@ -105,13 +108,13 @@ class KuzuGraph:
                     except Exception:
                         pass
                 old_attrs.update(attrs or {})
-                self._conn.execute(
+                self._get_conn().execute(
                     "MATCH (n:Node {node_id: $nid}) SET n.label = $label, n.attrs = $attrs, n.updated_at = $now, n.importance = $imp",
                     {"nid": node_id, "label": label, "attrs": json.dumps(old_attrs), "now": now, "imp": importance}
                 )
             else:
                 # Insert
-                self._conn.execute(
+                self._get_conn().execute(
                     "CREATE (n:Node {node_id: $nid, type: $type, label: $label, attrs: $attrs, created_at: $now, updated_at: $now, importance: $imp})",
                     {"nid": node_id, "type": type, "label": label, "attrs": attrs_json, "now": now, "imp": importance}
                 )
@@ -140,7 +143,7 @@ class KuzuGraph:
 
         try:
             # Check if relation exists
-            result = self._conn.execute(
+            result = self._get_conn().execute(
                 "MATCH (a:Node {node_id: $fid})-[r:Relation {relation: $rel}]->(b:Node {node_id: $tid}) RETURN r.relation",
                 {"fid": from_id, "tid": to_id, "rel": relation}
             )
@@ -150,7 +153,7 @@ class KuzuGraph:
                 return True
 
             # Create relation
-            self._conn.execute(
+            self._get_conn().execute(
                 "MATCH (a:Node {node_id: $fid}), (b:Node {node_id: $tid}) CREATE (a)-[:Relation {relation: $rel, attrs: $attrs, created_at: $now, confidence: $conf}]->(b)",
                 {"fid": from_id, "tid": to_id, "rel": relation, "attrs": attrs_json, "now": now, "conf": confidence}
             )
@@ -163,7 +166,7 @@ class KuzuGraph:
     def get_node(self, node_id: str) -> Optional[dict]:
         """Get a node by ID."""
         try:
-            result = self._conn.execute(
+            result = self._get_conn().execute(
                 "MATCH (n:Node {node_id: $nid}) RETURN n.node_id, n.type, n.label, n.attrs, n.created_at, n.importance",
                 {"nid": node_id}
             )
@@ -189,12 +192,12 @@ class KuzuGraph:
         try:
             # Outgoing
             if relation:
-                out_result = self._conn.execute(
+                out_result = self._get_conn().execute(
                     "MATCH (a:Node {node_id: $nid})-[r:Relation {relation: $rel}]->(b:Node) RETURN b.node_id, b.type, b.label, b.attrs, b.importance, r.relation, r.confidence",
                     {"nid": node_id, "rel": relation}
                 )
             else:
-                out_result = self._conn.execute(
+                out_result = self._get_conn().execute(
                     "MATCH (a:Node {node_id: $nid})-[r:Relation]->(b:Node) RETURN b.node_id, b.type, b.label, b.attrs, b.importance, r.relation, r.confidence",
                     {"nid": node_id}
                 )
@@ -209,12 +212,12 @@ class KuzuGraph:
 
             # Incoming
             if relation:
-                in_result = self._conn.execute(
+                in_result = self._get_conn().execute(
                     "MATCH (a:Node)-[r:Relation {relation: $rel}]->(b:Node {node_id: $nid}) RETURN a.node_id, a.type, a.label, a.attrs, a.importance, r.relation, r.confidence",
                     {"nid": node_id, "rel": relation}
                 )
             else:
-                in_result = self._conn.execute(
+                in_result = self._get_conn().execute(
                     "MATCH (a:Node)-[r:Relation]->(b:Node {node_id: $nid}) RETURN a.node_id, a.type, a.label, a.attrs, a.importance, r.relation, r.confidence",
                     {"nid": node_id}
                 )
@@ -234,12 +237,12 @@ class KuzuGraph:
         """Text search in node labels and attrs."""
         try:
             if type:
-                result = self._conn.execute(
+                result = self._get_conn().execute(
                     "MATCH (n:Node) WHERE n.type = $type AND (LOWER(n.label) CONTAINS LOWER($q) OR LOWER(n.attrs) CONTAINS LOWER($q)) RETURN n.node_id, n.type, n.label, n.attrs, n.importance ORDER BY n.importance DESC LIMIT $lim",
                     {"type": type, "q": query, "lim": limit}
                 )
             else:
-                result = self._conn.execute(
+                result = self._get_conn().execute(
                     "MATCH (n:Node) WHERE LOWER(n.label) CONTAINS LOWER($q) OR LOWER(n.attrs) CONTAINS LOWER($q) RETURN n.node_id, n.type, n.label, n.attrs, n.importance ORDER BY n.importance DESC LIMIT $lim",
                     {"q": query, "lim": limit}
                 )
@@ -255,7 +258,7 @@ class KuzuGraph:
     def cypher(self, query: str, params: dict = None) -> list:
         """Execute a raw Cypher query. Returns list of dicts."""
         try:
-            result = self._conn.execute(query, params or {})
+            result = self._get_conn().execute(query, params or {})
             df = result.get_as_df()
             return df.to_dict(orient="records")
         except Exception as e:
@@ -266,12 +269,12 @@ class KuzuGraph:
         """Get all nodes, optionally filtered by type."""
         try:
             if type:
-                result = self._conn.execute(
+                result = self._get_conn().execute(
                     "MATCH (n:Node {type: $type}) RETURN n.node_id, n.type, n.label, n.attrs, n.importance ORDER BY n.importance DESC LIMIT $lim",
                     {"type": type, "lim": limit}
                 )
             else:
-                result = self._conn.execute(
+                result = self._get_conn().execute(
                     "MATCH (n:Node) RETURN n.node_id, n.type, n.label, n.attrs, n.importance ORDER BY n.importance DESC LIMIT $lim",
                     {"lim": limit}
                 )
@@ -287,10 +290,10 @@ class KuzuGraph:
     def summary(self) -> dict:
         """Stats about the graph."""
         try:
-            n_result = self._conn.execute("MATCH (n:Node) RETURN count(n)").get_as_df()
-            e_result = self._conn.execute("MATCH ()-[r:Relation]->() RETURN count(r)").get_as_df()
-            t_result = self._conn.execute("MATCH (n:Node) RETURN n.type, count(n) ORDER BY count(n) DESC").get_as_df()
-            r_result = self._conn.execute("MATCH ()-[r:Relation]->() RETURN r.relation, count(r) ORDER BY count(r) DESC LIMIT 10").get_as_df()
+            n_result = self._get_conn().execute("MATCH (n:Node) RETURN count(n)").get_as_df()
+            e_result = self._get_conn().execute("MATCH ()-[r:Relation]->() RETURN count(r)").get_as_df()
+            t_result = self._get_conn().execute("MATCH (n:Node) RETURN n.type, count(n) ORDER BY count(n) DESC").get_as_df()
+            r_result = self._get_conn().execute("MATCH ()-[r:Relation]->() RETURN r.relation, count(r) ORDER BY count(r) DESC LIMIT 10").get_as_df()
 
             n_count = int(n_result.iloc[0, 0]) if len(n_result) > 0 else 0
             e_count = int(e_result.iloc[0, 0]) if len(e_result) > 0 else 0

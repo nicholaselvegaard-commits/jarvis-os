@@ -96,6 +96,18 @@ MCP_TOOLS = [
         },
     },
     {
+        "name": "kg_cypher",
+        "description": "Run Cypher query against Kuzu graph DB (advanced graph queries).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string"},
+                "params": {"type": "object"},
+            },
+            "required": ["query"],
+        },
+    },
+    {
         "name": "kg_find_related",
         "description": "Finn relasjoner for en entitet i knowledge graph",
         "inputSchema": {
@@ -196,6 +208,18 @@ def execute_tool(name: str, inputs: dict) -> str:
         if not results:
             return "Ingen noder funnet"
         return "\n".join([f"- {r['id']} ({r['type']}): {r['label']}" for r in results])
+
+    elif name == "kg_cypher":
+        try:
+            from memory.kuzu_graph import KuzuGraph
+            kuzu_kg = KuzuGraph()
+            rows = kuzu_kg.cypher(inputs["query"], params=inputs.get("params", {}))
+            if not rows:
+                return "No results."
+            import json as _json
+            return _json.dumps(rows[:20], ensure_ascii=False, indent=2)
+        except Exception as e:
+            return "Kuzu error: " + str(e)
 
     elif name == "kg_find_related":
         if not brain.kg:
