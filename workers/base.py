@@ -21,6 +21,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Optional
 
+from dotenv import load_dotenv
+load_dotenv("/opt/nexus/.env")
 import anthropic
 
 logger = logging.getLogger(__name__)

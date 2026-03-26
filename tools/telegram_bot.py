@@ -180,6 +180,61 @@ NEXUS_TOOLS = [
         "description": "Kjør selvrefleksjon — analyser egne resultater og oppdater strategi.",
         "input_schema": {"type": "object", "properties": {}},
     },
+    {
+        "name": "spawn_worker",
+        "description": "Sett en spesialisert AI-arbeider på jobb. Bruk for alle oppgaver som krever research, salg, analyse, kode eller minnelagring.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "specialty": {
+                    "type": "string",
+                    "enum": ["research", "sales", "content", "code", "analytics", "memory"],
+                    "description": "research=søk/analyse, sales=leads/brreg, content=Obsidian-notat, code=kjør Python, analytics=SSB/Stripe, memory=KG-oppdatering",
+                },
+                "task": {"type": "string", "description": "Detaljert beskrivelse av oppgaven"},
+            },
+            "required": ["specialty", "task"],
+        },
+    },
+    {
+        "name": "delegate_task",
+        "description": "Orkestrér en kompleks jobb — orkestratoren bryter den ned i parallelle deloppgaver og syntetiserer resultatet.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "task": {"type": "string", "description": "Kompleks oppgave som skal løses av flere arbeidere"},
+            },
+            "required": ["task"],
+        },
+    },
+    {
+        "name": "brain_remember",
+        "description": "Lagre viktig informasjon i hjernesystemet — KG + vektorminne + Obsidian vault.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "content": {"type": "string", "description": "Hva som skal huskes"},
+                "category": {
+                    "type": "string",
+                    "enum": ["lead", "revenue", "learning", "task", "insight", "strategy", "contact", "project"],
+                    "description": "Kategori",
+                },
+                "tags": {"type": "array", "items": {"type": "string"}, "description": "Tags for organisering"},
+            },
+            "required": ["content"],
+        },
+    },
+    {
+        "name": "brain_query",
+        "description": "Søk på tvers av KG, vektorminne og Obsidian vault — hent relevant kontekst om et emne.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Søkespørsmål eller emne"},
+            },
+            "required": ["query"],
+        },
+    },
 ]
 
 
@@ -234,6 +289,56 @@ async def _execute_tool(name: str, inputs: dict) -> str:
             from agents.reflection_agent import reflect
             return await reflect()
 
+        elif name == "spawn_worker":
+            try:
+                from workers.orchestrator import Orchestrator
+                orch = Orchestrator()
+                result = orch.run_worker(inputs["specialty"], inputs["task"])
+                ok = "OK" if result.get("success") else "FEIL"
+                ms = result.get("duration_ms", 0)
+                return f"[{inputs['specialty'].upper()} {ok} {ms}ms]\n{result.get('result', '')[:1800]}"
+            except Exception as e:
+                return f"Worker feil: {e}"
+
+        elif name == "delegate_task":
+            try:
+                from workers.orchestrator import Orchestrator
+                orch = Orchestrator()
+                result = orch.delegate(inputs["task"])
+                summary = result.get("summary", "")
+                plan = result.get("plan", "")
+                ms = result.get("duration_ms", 0)
+                workers = ", ".join(result.get("workers_used", []))
+                return f"Plan: {plan}\n\nArbeidere: {workers} ({ms}ms)\n\nResultat:\n{summary}"[:2000]
+            except Exception as e:
+                return f"Delegate feil: {e}"
+
+        elif name == "brain_remember":
+            try:
+                import sys
+                sys.path.insert(0, '/opt/nexus')
+                from memory.brain import Brain
+                b = Brain()
+                b.remember(
+                    inputs["content"],
+                    category=inputs.get("category", "insight"),
+                    tags=inputs.get("tags", []),
+                )
+                return f"Lagret i hjernesystemet: {inputs['content'][:100]}"
+            except Exception as e:
+                return f"Brain remember feil: {e}"
+
+        elif name == "brain_query":
+            try:
+                import sys
+                sys.path.insert(0, '/opt/nexus')
+                from memory.brain import Brain
+                b = Brain()
+                ctx = b.get_context(inputs["query"])
+                return ctx[:2000] if ctx else "Ingen treff i hjernesystemet."
+            except Exception as e:
+                return f"Brain query feil: {e}"
+
         else:
             return f"Ukjent verktøy: {name}"
 
@@ -252,15 +357,26 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"Telegram eier registrert: {_owner_chat_id}")
     await update.message.reply_text(
         "NEXUS online.\n\n"
-        "Send en lenke direkte — jeg leser den automatisk.\n\n"
-        "/search [søkeord] — søk på nettet\n"
-        "/url [lenke] — les nettside eller GitHub\n"
-        "/github [bruker] — analyser GitHub-profil\n"
+        "━━ HJERNESYSTEM ━━\n"
+        "/brain [spørsmål] — søk i KG+vektor+vault\n"
+        "/kg [søk] — søk i kunnskapsgrafen\n"
+        "/worker [type] [oppgave] — spawn spesialist\n"
+        "/delegate [oppgave] — orkestrér kompleks jobb\n\n"
+        "━━ DAGLIG DRIFT ━━\n"
         "/status — systemstatus\n"
         "/leads — hent nye leads nå\n"
         "/email — send e-poster nå\n"
         "/mcp — sjekk MCP-board\n"
         "/report — generer daglig rapport\n"
+        "/goals — fremgang mot 100K NOK\n"
+        "/reflect — selvrefleksjon nå\n\n"
+        "━━ VERKTØY ━━\n"
+        "/search [søkeord] — søk på nettet\n"
+        "/url [lenke] — les nettside\n"
+        "/browse [url] — headless browser\n"
+        "/github [bruker] — analyser GitHub\n"
+        "/replies — sjekk lead-svar\n"
+        "/memory — smart memory stats\n"
         "/forget — tøm samtalehukommelse\n\n"
         "Send tekst, bilde eller dokument — jeg svarer."
     )
@@ -449,6 +565,131 @@ async def _send_long(update, text: str) -> None:
             await update.message.reply_text(chunk)
 
 
+async def cmd_worker(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Spawn en spesialisert arbeider: /worker [type] [oppgave]"""
+    args = context.args or []
+    valid = ["research", "sales", "content", "code", "analytics", "memory"]
+    if not args or args[0].lower() not in valid:
+        await update.message.reply_text(
+            "Bruk: /worker [type] [oppgave]\n\n"
+            "Typer:\n"
+            "  research  — søk/analyse\n"
+            "  sales     — leads/Brreg\n"
+            "  content   — Obsidian-notat\n"
+            "  code      — kjør Python\n"
+            "  analytics — SSB/Stripe\n"
+            "  memory    — KG-oppdatering\n\n"
+            "Eks: /worker research AI startups Norway 2025"
+        )
+        return
+    specialty = args[0].lower()
+    task = " ".join(args[1:]) if len(args) > 1 else "Utfør en standard oppgave"
+    status_msg = await update.message.reply_text(f"Kjører {specialty}-arbeider...")
+    try:
+        import asyncio as _asyncio
+        loop = _asyncio.get_event_loop()
+        from workers.orchestrator import Orchestrator
+        orch = Orchestrator()
+        result = await loop.run_in_executor(None, lambda: orch.run_worker(specialty, task))
+        ok = "OK" if result.get("success") else "FEIL"
+        ms = result.get("duration_ms", 0)
+        text = f"[{specialty.upper()} {ok} {ms}ms]\n\n{result.get('result', 'Ingen output')}"
+        await status_msg.delete()
+        await _send_long(update, text)
+    except Exception as e:
+        await status_msg.edit_text(f"Worker feil: {e}")
+
+
+async def cmd_brain(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Spør hjernesystemet: /brain [spørsmål]"""
+    query = " ".join(context.args) if context.args else None
+    if not query:
+        await update.message.reply_text("Bruk: /brain [spørsmål]\nEks: /brain hvem er nicholas")
+        return
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
+    try:
+        import sys as _sys
+        if '/opt/nexus' not in _sys.path:
+            _sys.path.insert(0, '/opt/nexus')
+        from memory.brain import Brain
+        b = Brain()
+        ctx = b.get_context(query)
+        status = b.status()
+        header = (
+            f"Hjernesystem — {query}\n"
+            f"KG: {status.get('knowledge_graph',{}).get('nodes',0)} noder | "
+            f"Vektor: {status.get('vector_memory',{}).get('count',0)} minner | "
+            f"Vault: {status.get('obsidian',{}).get('total_notes',0)} notater\n\n"
+        )
+        await _send_long(update, header + (ctx or "Ingen kontekst funnet."))
+    except Exception as e:
+        await update.message.reply_text(f"Brain feil: {e}")
+
+
+async def cmd_kg(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Søk i kunnskapsgrafen: /kg [søk]"""
+    query = " ".join(context.args) if context.args else None
+    if not query:
+        await update.message.reply_text("Bruk: /kg [søk]\nEks: /kg AIDN bedrifter Bodø")
+        return
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
+    try:
+        import sys as _sys
+        if '/opt/nexus' not in _sys.path:
+            _sys.path.insert(0, '/opt/nexus')
+        from memory.brain import Brain
+        b = Brain()
+        if not b.kg:
+            await update.message.reply_text("KG ikke tilgjengelig.")
+            return
+        nodes = b.kg.search_nodes(query, limit=10)
+        if not nodes:
+            await update.message.reply_text(f"Ingen noder funnet for: {query}")
+            return
+        lines = [f"KG-søk: '{query}' → {len(nodes)} treff\n"]
+        for n in nodes:
+            lines.append(f"• [{n.get('type','?')}] {n.get('label','?')} (imp={n.get('importance',1)})")
+            if n.get('attrs'):
+                for k, v in list(n['attrs'].items())[:3]:
+                    lines.append(f"    {k}: {v}")
+        await update.message.reply_text("\n".join(lines))
+    except Exception as e:
+        await update.message.reply_text(f"KG feil: {e}")
+
+
+async def cmd_delegate(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Deleger en kompleks jobb til orkestratoren: /delegate [oppgave]"""
+    task = " ".join(context.args) if context.args else None
+    if not task:
+        await update.message.reply_text(
+            "Bruk: /delegate [oppgave]\n"
+            "Eks: /delegate Finn 10 IT-bedrifter i Bodø og skriv pitch til dem"
+        )
+        return
+    status_msg = await update.message.reply_text(f"Orkestrerer: {task[:80]}...")
+    try:
+        import asyncio as _asyncio
+        loop = _asyncio.get_event_loop()
+        from workers.orchestrator import Orchestrator
+        orch = Orchestrator()
+        result = await loop.run_in_executor(None, lambda: orch.delegate(task))
+        plan = result.get("plan", "")
+        summary = result.get("summary", "")
+        ms = result.get("duration_ms", 0)
+        workers = ", ".join(result.get("workers_used", []))
+        tokens = result.get("total_tokens", 0)
+        text = (
+            f"Delegert jobb fullført ({ms}ms, {tokens} tokens)\n"
+            f"Arbeidere: {workers}\n\n"
+            f"Plan: {plan}\n\n"
+            f"Resultat:\n{summary}"
+        )
+        await status_msg.delete()
+        await _send_long(update, text)
+    except Exception as e:
+        await status_msg.edit_text(f"Delegate feil: {e}")
+
+
 async def cmd_search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Søk på nettet — Perplexity eller DuckDuckGo fallback."""
     query = " ".join(context.args) if context.args else None
@@ -541,7 +782,21 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception:
         pass
 
-    system = NEXUS_TELEGRAM_SYSTEM + smart_context + strategy_context + kb_context
+    # Brain system — KG + vektorminne + Obsidian (ny arkitektur)
+    brain_context = ""
+    try:
+        import sys as _sys
+        if '/opt/nexus' not in _sys.path:
+            _sys.path.insert(0, '/opt/nexus')
+        from memory.brain import Brain
+        _brain = Brain()
+        _raw = _brain.get_context(user_text)
+        if _raw and len(_raw.strip()) > 20:
+            brain_context = f"\n\n═══ HJERNESYSTEM (KG + Vektor + Vault) ═══\n{_raw[:1200]}"
+    except Exception as _be:
+        logger.debug(f"brain_context feilet: {_be}")
+
+    system = NEXUS_TELEGRAM_SYSTEM + smart_context + strategy_context + kb_context + brain_context
 
     # Bygg meldingsliste (Anthropic format)
     messages = []
@@ -798,6 +1053,10 @@ def build_app():
     app.add_handler(CommandHandler("url", cmd_url))
     app.add_handler(CommandHandler("github", cmd_github))
     app.add_handler(CommandHandler("selfcheck", cmd_selfcheck))
+    app.add_handler(CommandHandler("worker", cmd_worker))
+    app.add_handler(CommandHandler("brain", cmd_brain))
+    app.add_handler(CommandHandler("kg", cmd_kg))
+    app.add_handler(CommandHandler("delegate", cmd_delegate))
     app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
     app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
